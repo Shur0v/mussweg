@@ -4,6 +4,7 @@ import { Users, ShoppingBag, Package, Wallet, TrendingUp } from 'lucide-react'
 import AnalyticsSection from './analytics'
 import AllUserRequest from './all-user-request'
 import { useState } from 'react'
+import { RecentOrdersTable } from './recent-orders-table'
 
 type Stat = {
   id: string
@@ -41,6 +42,7 @@ function StatCard({ title, value, percent, icon: Icon }: Stat) {
 
 export default function DashboardPage() {
   const [showAllUsers, setShowAllUsers] = useState(false)
+  const [showAllOrders, setShowAllOrders] = useState(false)
   const stats: Stat[] = [
     { id: 'users', title: 'Total User', value: '200', percent: '10%', icon: Users },
     { id: 'sell', title: 'Total Sell', value: '$20K', percent: '6%', icon: ShoppingBag },
@@ -61,6 +63,19 @@ export default function DashboardPage() {
     )
   }
 
+  if (showAllOrders) {
+    return (
+      <div className="max-w-[100vw] mx-auto ">
+        <div className="mb-4 flex justify-end">
+          <button onClick={() => setShowAllOrders(false)} className="px-3 py-2 bg-white rounded-md border border-gray-200 text-sm">Back</button>
+        </div>
+        <div className="min-h-[70vh]">
+          <RecentOrdersTable showViewAllButton={false} />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className=" max-w-[100vw] mx-auto ">
       <div className="w-full h-36 inline-flex justify-start items-start gap-4">
@@ -70,6 +85,9 @@ export default function DashboardPage() {
       </div>
       <div className="mt-6">
         <AnalyticsSection onViewAll={() => setShowAllUsers(true)} />
+      </div>
+      <div className="mt-6">
+        <RecentOrdersTable limit={4} showViewAllButton onViewAll={() => setShowAllOrders(true)} />
       </div>
     </div>
   )

@@ -80,7 +80,7 @@ const mockData: Product[] = [
   {
     id: 7,
     productName: "Double Seat Sofa",
-    image: "/images/p7.png",
+    image: "/images/p3.png",
     userName: "Albert Flores",
     category: "Vehicles",
     size: "Medium",
@@ -92,7 +92,7 @@ const mockData: Product[] = [
   {
     id: 8,
     productName: "Double Seat Sofa",
-    image: "/images/p8.png",
+    image: "/images/p7.png",
     userName: "Floyd Miles",
     category: "Electronics",
     size: "Small",
@@ -104,7 +104,7 @@ const mockData: Product[] = [
   {
     id: 9,
     productName: "Double Seat Sofa",
-    image: "/images/p1.png",
+    image: "/images/p8.png",
     userName: "Eleanor Pena",
     category: "Fashion",
     size: "XXL",
@@ -116,7 +116,7 @@ const mockData: Product[] = [
   {
     id: 10,
     productName: "Double Seat Sofa",
-    image: "/images/p2.png",
+    image: "/images/p4.png",
     userName: "Esther Howard",
     category: "Home",
     size: "Large",
@@ -140,7 +140,7 @@ const mockData: Product[] = [
   {
     id: 12,
     productName: "Double Seat Sofa",
-    image: "/images/p4.png",
+    image: "/images/p2.png",
     userName: "Savannah Nguyen",
     category: "Sports",
     size: "Large",
@@ -152,7 +152,7 @@ const mockData: Product[] = [
   {
     id: 13,
     productName: "Double Seat Sofa",
-    image: "/images/p5.png",
+    image: "/images/p1.png",
     userName: "Jacob Jones",
     category: "Jewellery",
     size: "Medium",
@@ -165,7 +165,7 @@ const mockData: Product[] = [
 
 export default function ProductTable() {
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+  const itemsPerPage = 13
   const totalPages = Math.ceil(mockData.length / itemsPerPage)
 
   const handleAction = (action: "accept" | "reject", productId: number) => {
@@ -184,9 +184,10 @@ export default function ProductTable() {
     <div className="bg-white rounded-xl shadow-[0px_4px_33px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-4 overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold text-gray-600 font-['Roboto']">
-          Product Upload Request ({mockData.length})
-        </h2>
+        <h2 className="text-lg font-semibold text-gray-600 font-['Roboto']">Product Upload Request</h2>
+        <button className="px-3.5 py-2 bg-gray-50 rounded-md border border-gray-200 text-sm font-medium text-gray-600 font-['Roboto']">
+          View All
+        </button>
       </div>
 
       {/* Table */}
@@ -281,39 +282,42 @@ export default function ProductTable() {
           <ChevronLeft className="w-4 h-4 text-gray-500" />
         </button>
 
-        {/* Dynamic page numbers */}
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-          // Show first page, last page, current page, and pages around current page
-          if (
-            page === 1 ||
-            page === totalPages ||
-            (page >= currentPage - 1 && page <= currentPage + 1)
-          ) {
-            return (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`w-8 h-8 rounded-lg flex justify-center items-center text-sm font-normal font-['Roboto'] transition-colors ${
-                  currentPage === page
-                    ? "bg-gray-50 border border-red-600 text-red-600"
-                    : "border border-gray-200 text-gray-500 hover:bg-gray-50"
-                }`}
-              >
-                {page}
-              </button>
-            )
-          } else if (
-            page === currentPage - 2 ||
-            page === currentPage + 2
-          ) {
-            return (
-              <div key={`ellipsis-${page}`} className="w-8 h-8 rounded-lg border border-gray-200 flex justify-center items-center">
-                <span className="text-gray-500 text-lg font-semibold">...</span>
-              </div>
-            )
-          }
-          return null
-        })}
+        <button
+          onClick={() => handlePageChange(1)}
+          className={`w-8 h-8 rounded-lg flex justify-center items-center text-sm font-normal font-['Roboto'] transition-colors ${
+            currentPage === 1
+              ? "bg-gray-50 border border-red-600 text-red-600"
+              : "border border-gray-200 text-gray-500 hover:bg-gray-50"
+          }`}
+        >
+          1
+        </button>
+
+        <button
+          onClick={() => handlePageChange(2)}
+          className={`w-8 h-8 rounded-lg flex justify-center items-center text-sm font-normal font-['Roboto'] transition-colors ${
+            currentPage === 2
+              ? "bg-gray-50 border border-red-600 text-red-600"
+              : "border border-gray-200 text-gray-500 hover:bg-gray-50"
+          }`}
+        >
+          2
+        </button>
+
+        <div className="w-8 h-8 rounded-lg border border-gray-200 flex justify-center items-center">
+          <span className="text-gray-500 text-lg font-semibold">...</span>
+        </div>
+
+        <button
+          onClick={() => handlePageChange(10)}
+          className={`w-8 h-8 rounded-lg flex justify-center items-center text-sm font-normal font-['Roboto'] transition-colors ${
+            currentPage === 10
+              ? "bg-gray-50 border border-red-600 text-red-600"
+              : "border border-gray-200 text-gray-500 hover:bg-gray-50"
+          }`}
+        >
+          10
+        </button>
 
         <button
           onClick={() => handlePageChange(currentPage + 1)}

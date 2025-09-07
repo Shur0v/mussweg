@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Right: Topbar + scrollable content */}
       <div className="flex flex-col flex-1 min-w-0 h-screen">
         <Topbar />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto p-4">
           {children}
         </main>
       </div>

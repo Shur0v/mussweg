@@ -1,9 +1,9 @@
-import SettingsPage from "./components/settingspage"
+import ProfilePage from "./components/profilepage"
 
 export default function Page() {
   return (
     <>
-    <SettingsPage />
+    <ProfilePage />
     </>
   )
 }

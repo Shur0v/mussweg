@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { Edit, ChevronDown } from "lucide-react"
+import { useState, useRef } from "react"
+import { useForm, UseFormRegister, FieldErrors } from "react-hook-form"
+import { Edit, ChevronDown, Upload, X } from "lucide-react"
 
 interface ProfileData {
   firstName: string
@@ -19,47 +20,117 @@ const LANGUAGE_OPTIONS = ["English", "Spanish", "French", "German"]
 export default function ProfilePage() {
   const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
   const [isEditingProfile, setIsEditingProfile] = useState(false)
-  const [profileData, setProfileData] = useState<ProfileData>({
+  const [profileImage, setProfileImage] = useState<string>(PROFILE_IMAGE_URL)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  const defaultValues: ProfileData = {
     firstName: "Courtney",
     lastName: "Henry",
     email: "debra.holt@example.com",
     phone: "016735555728",
     address: "2464 Royal Ln. Mesa, New Jersey 45463",
     language: "English",
+  }
+
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<ProfileData>({
+    defaultValues
   })
 
-  const updateProfileField = (field: keyof ProfileData, value: string) => {
-    setProfileData((prev) => ({ ...prev, [field]: value }))
+  const watchedValues = watch()
+
+  const onSubmit = (data: ProfileData) => {
+    console.log("Form submitted with data:", data)
+    console.log("Profile image:", profileImage)
+    setIsEditingPersonalInfo(false)
+    setIsEditingProfile(false)
   }
 
   const handleSave = () => {
+    handleSubmit(onSubmit)()
+  }
+
+  const handleCancel = () => {
+    reset(defaultValues)
+    setProfileImage(PROFILE_IMAGE_URL)
+    setImagePreview(null)
     setIsEditingPersonalInfo(false)
     setIsEditingProfile(false)
   }
 
-  const handleCancel = () => {
-    setIsEditingPersonalInfo(false)
-    setIsEditingProfile(false)
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('File input changed:', event.target.files)
+    const file = event.target.files?.[0]
+    if (file) {
+      console.log('Selected file:', file.name, file.type, file.size)
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file')
+        return
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB')
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const result = e.target?.result as string
+        console.log('Image loaded successfully')
+        setImagePreview(result)
+        setProfileImage(result)
+      }
+      reader.onerror = () => {
+        console.error('Error reading file')
+        alert('Error reading the image file')
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleRemoveImage = () => {
+    console.log('Remove image button clicked')
+    setProfileImage(PROFILE_IMAGE_URL) // Reset to original default
+    setImagePreview(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  const handleChangeImageClick = () => {
+    console.log('Change image button clicked')
+    console.log('File input ref:', fileInputRef.current)
+    fileInputRef.current?.click()
   }
 
   const isInEditMode = isEditingPersonalInfo || isEditingProfile
 
   return (
     <div className=" flex justify-center">
-      <div className="w-full p-4 bg-white rounded-xl shadow-[0px_4px_33px_8px_rgba(0,0,0,0.04)] outline outline-1 outline-offset-[-1px] outline-gray-200 flex flex-col gap-4">
+      <div className="w-full p-4 bg-white rounded-xl shadow-[0px_4px_33px_8px_rgba(0,0,0,0.04)] outline-1 outline-offset-[-1px] outline-gray-200 flex flex-col gap-4">
         {/* Profile Section */}
         <ProfileSection
           isEditing={isEditingProfile}
           onEdit={() => setIsEditingProfile(true)}
-          profileData={profileData}
+          profileData={watchedValues}
+          profileImage={profileImage}
+          imagePreview={imagePreview}
+          fileInputRef={fileInputRef}
+          onImageUpload={handleImageUpload}
+          onChangeImageClick={handleChangeImageClick}
+          onRemoveImage={handleRemoveImage}
         />
 
         {/* Personal Info Section */}
         <PersonalInfoSection
           isEditing={isEditingPersonalInfo}
           onEdit={() => setIsEditingPersonalInfo(true)}
-          profileData={profileData}
-          onUpdateField={updateProfileField}
+          register={register}
+          errors={errors}
+          watchedValues={watchedValues}
         />
 
         {/* Action Buttons */}
@@ -73,10 +144,22 @@ function ProfileSection({
   isEditing,
   onEdit,
   profileData,
+  profileImage,
+  imagePreview,
+  fileInputRef,
+  onImageUpload,
+  onChangeImageClick,
+  onRemoveImage,
 }: {
   isEditing: boolean
   onEdit: () => void
   profileData: ProfileData
+  profileImage: string
+  imagePreview: string | null
+  fileInputRef: React.RefObject<HTMLInputElement | null>
+  onImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChangeImageClick: () => void
+  onRemoveImage: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -84,10 +167,45 @@ function ProfileSection({
 
       <div className="px-5 py-6 rounded-xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-between items-start">
         <div className="flex items-center gap-3.5">
-          <img className="w-20 h-20 rounded-full" src={PROFILE_IMAGE_URL || "/placeholder.svg"} alt="Profile" />
+          <div className="relative">
+            <img 
+              className="w-20 h-20 rounded-full object-cover" 
+              src={imagePreview || profileImage || "https://via.placeholder.com/80x80/cccccc/666666?text=No+Image"} 
+              alt="Profile" 
+              onError={(e) => {
+                const target = e.target as HTMLImageElement
+                target.src = "https://via.placeholder.com/80x80/cccccc/666666?text=No+Image"
+              }}
+            />
+            {isEditing && (
+              <div 
+                className="absolute -top-1 -right-1 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors" 
+                onClick={(e) => {
+                  e.preventDefault()
+                  console.log('X button on image clicked')
+                  onRemoveImage()
+                }}
+              >
+                <X className="w-4 h-4 text-white" />
+              </div>
+            )}
+          </div>
 
           {isEditing ? (
-            <ProfileImageButtons />
+            <div className="flex flex-col gap-2">
+              <ProfileImageButtons 
+                onChangeImageClick={onChangeImageClick}
+                onRemoveImage={onRemoveImage}
+              />
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={onImageUpload}
+                className="hidden"
+              />
+            </div>
           ) : (
             <ProfileInfo name={`${profileData.firstName} ${profileData.lastName}`} email={profileData.email} />
           )}
@@ -99,13 +217,37 @@ function ProfileSection({
   )
 }
 
-function ProfileImageButtons() {
+function ProfileImageButtons({
+  onChangeImageClick,
+  onRemoveImage,
+}: {
+  onChangeImageClick: () => void
+  onRemoveImage: () => void
+}) {
   return (
     <div className="flex gap-4">
-      <button className="px-3.5 py-2 bg-red-600 rounded-md outline outline-1 outline-offset-[-1px] flex items-center gap-2.5 hover:bg-red-700 transition-colors">
+      <button 
+        type="button"
+        onClick={(e) => {
+          e.preventDefault()
+          console.log('Change button clicked')
+          onChangeImageClick()
+        }}
+        className="px-3.5 py-2 bg-red-600 rounded-md flex items-center gap-2.5 hover:bg-red-700 transition-colors"
+      >
+        <Upload className="w-4 h-4 text-white" />
         <span className="text-white text-sm font-medium font-['Roboto'] leading-tight">Change Profile Image</span>
       </button>
-      <button className="px-3.5 py-2 rounded-md outline outline-1 outline-offset-[-1px] outline-red-600 flex items-center gap-2.5 hover:bg-red-50 transition-colors">
+      <button 
+        type="button"
+        onClick={(e) => {
+          e.preventDefault()
+          console.log('Remove button clicked')
+          onRemoveImage()
+        }}
+        className="px-3.5 py-2 rounded-md outline-red-600 flex items-center gap-2.5 hover:bg-red-50 transition-colors"
+      >
+        <X className="w-4 h-4 text-red-600" />
         <span className="text-red-600 text-sm font-medium font-['Roboto'] leading-tight">Remove Profile Image</span>
       </button>
     </div>
@@ -124,13 +266,15 @@ function ProfileInfo({ name, email }: { name: string; email: string }) {
 function PersonalInfoSection({
   isEditing,
   onEdit,
-  profileData,
-  onUpdateField,
+  register,
+  errors,
+  watchedValues,
 }: {
   isEditing: boolean
   onEdit: () => void
-  profileData: ProfileData
-  onUpdateField: (field: keyof ProfileData, value: string) => void
+  register: UseFormRegister<ProfileData>
+  errors: FieldErrors<ProfileData>
+  watchedValues: ProfileData
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -138,9 +282,9 @@ function PersonalInfoSection({
 
       <div className="px-5 py-6 rounded-xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-between items-start">
         {isEditing ? (
-          <PersonalInfoForm profileData={profileData} onUpdateField={onUpdateField} />
+          <PersonalInfoForm register={register} errors={errors} />
         ) : (
-          <PersonalInfoDisplay profileData={profileData} />
+          <PersonalInfoDisplay profileData={watchedValues} />
         )}
 
         {!isEditing && <EditButton onClick={onEdit} />}
@@ -184,11 +328,11 @@ function PersonalInfoDisplay({ profileData }: { profileData: ProfileData }) {
 }
 
 function PersonalInfoForm({
-  profileData,
-  onUpdateField,
+  register,
+  errors,
 }: {
-  profileData: ProfileData
-  onUpdateField: (field: keyof ProfileData, value: string) => void
+  register: UseFormRegister<ProfileData>
+  errors: FieldErrors<ProfileData>
 }) {
   const formFields = [
     [
@@ -214,8 +358,9 @@ function PersonalInfoForm({
               key={fieldIndex}
               label={field.label}
               type={field.type}
-              value={profileData[field.key]}
-              onChange={(value) => onUpdateField(field.key, value)}
+              fieldKey={field.key}
+              register={register}
+              errors={errors}
             />
           ))}
         </div>
@@ -227,13 +372,15 @@ function PersonalInfoForm({
 function FormField({
   label,
   type,
-  value,
-  onChange,
+  fieldKey,
+  register,
+  errors,
 }: {
   label: string
   type: string
-  value: string
-  onChange: (value: string) => void
+  fieldKey: keyof ProfileData
+  register: UseFormRegister<ProfileData>
+  errors: FieldErrors<ProfileData>
 }) {
   return (
     <div className="w-80 flex flex-col gap-2">
@@ -242,8 +389,7 @@ function FormField({
         {type === "select" ? (
           <>
             <select
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
+              {...register(fieldKey, { required: `${label} is required` })}
               className="flex-1 text-zinc-500 text-sm font-normal font-['Roboto'] leading-snug bg-transparent outline-none appearance-none"
             >
               {LANGUAGE_OPTIONS.map((option) => (
@@ -257,12 +403,24 @@ function FormField({
         ) : (
           <input
             type={type}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
+            {...register(fieldKey, { 
+              required: `${label} is required`,
+              ...(type === "email" && {
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address"
+                }
+              })
+            })}
             className="flex-1 text-zinc-500 text-sm font-normal font-['Roboto'] leading-snug bg-transparent outline-none"
           />
         )}
       </div>
+      {errors[fieldKey] && (
+        <span className="text-red-500 text-xs font-normal font-['Roboto']">
+          {errors[fieldKey].message}
+        </span>
+      )}
     </div>
   )
 }

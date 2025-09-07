@@ -233,7 +233,7 @@ function ProfileImageButtons({
           console.log('Change button clicked')
           onChangeImageClick()
         }}
-        className="px-3.5 py-2 bg-red-600 rounded-md flex items-center gap-2.5 hover:bg-red-700 transition-colors"
+        className="px-3.5 py-2 bg-red-600 rounded-md flex items-center gap-2.5 hover:bg-red-700 transition-colors cursor-pointer"
       >
         <Upload className="w-4 h-4 text-white" />
         <span className="text-white text-sm font-medium font-['Roboto'] leading-tight">Change Profile Image</span>
@@ -245,7 +245,7 @@ function ProfileImageButtons({
           console.log('Remove button clicked')
           onRemoveImage()
         }}
-        className="px-3.5 py-2 rounded-md outline-red-600 flex items-center gap-2.5 hover:bg-red-50 transition-colors"
+        className="px-3.5 py-2 rounded-md outline-red-600 flex items-center gap-2.5 hover:bg-red-50 transition-colors cursor-pointer"
       >
         <X className="w-4 h-4 text-red-600" />
         <span className="text-red-600 text-sm font-medium font-['Roboto'] leading-tight">Remove Profile Image</span>
@@ -384,13 +384,13 @@ function FormField({
 }) {
   return (
     <div className="w-80 flex flex-col gap-2">
-      <label className="text-neutral-600 text-sm font-medium font-['Roboto']">{label}</label>
-      <div className="h-9 p-3 rounded-lg outline outline-1 outline-offset-[-1px] outline-gray-200 flex items-center gap-2.5 relative">
+      <label className="text-neutral-600 text-sm font-medium font-['Roboto'] cursor-pointer">{label}</label>
+      <div className="h-9 p-3 rounded-lg outline outline-1 outline-offset-[-1px] outline-gray-200 flex items-center gap-2.5 relative cursor-pointer">
         {type === "select" ? (
           <>
             <select
               {...register(fieldKey, { required: `${label} is required` })}
-              className="flex-1 text-zinc-500 text-sm font-normal font-['Roboto'] leading-snug bg-transparent outline-none appearance-none"
+              className="flex-1 text-zinc-500 text-sm font-normal font-['Roboto'] leading-snug bg-transparent outline-none appearance-none cursor-pointer"
             >
               {LANGUAGE_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -401,19 +401,19 @@ function FormField({
             <ChevronDown className="w-5 h-5 text-zinc-500" />
           </>
         ) : (
-          <input
-            type={type}
-            {...register(fieldKey, { 
-              required: `${label} is required`,
-              ...(type === "email" && {
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address"
-                }
-              })
-            })}
-            className="flex-1 text-zinc-500 text-sm font-normal font-['Roboto'] leading-snug bg-transparent outline-none"
-          />
+            <input
+              type={type}
+              {...register(fieldKey, { 
+                required: `${label} is required`,
+                ...(type === "email" && {
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address"
+                  }
+                })
+              })}
+              className="flex-1 text-zinc-500 text-sm font-normal font-['Roboto'] leading-snug bg-transparent outline-none cursor-text"
+            />
         )}
       </div>
       {errors[fieldKey] && (
@@ -437,7 +437,7 @@ function EditButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="px-3.5 py-2 bg-gray-50 rounded-md outline outline-1 outline-offset-[-1px] outline-gray-200 flex items-center gap-2.5 hover:bg-gray-100 transition-colors"
+      className="px-3.5 py-2 bg-gray-50 rounded-md outline outline-1 outline-offset-[-1px] outline-gray-200 flex items-center gap-2.5 hover:bg-gray-100 transition-colors cursor-pointer"
     >
       <span className="text-neutral-600 text-sm font-medium font-['Roboto'] leading-tight">Edit</span>
       <Edit className="w-5 h-5 text-neutral-600" />
@@ -456,13 +456,13 @@ function ActionButtons({
     <div className="flex gap-3">
       <button
         onClick={onCancel}
-        className="w-40 px-4 py-3 bg-slate-950/5 rounded-[10px] flex justify-center items-center hover:bg-slate-950/10 transition-colors"
+        className="w-40 px-4 py-3 bg-slate-950/5 rounded-[10px] flex justify-center items-center hover:bg-slate-950/10 transition-colors cursor-pointer"
       >
         <span className="text-neutral-600 text-lg font-medium font-['Roboto'] leading-normal">Cancel</span>
       </button>
       <button
         onClick={onSave}
-        className="px-4 py-3 bg-red-600 rounded-[10px] flex justify-center items-center hover:bg-red-700 transition-colors"
+        className="px-4 py-3 bg-red-600 rounded-[10px] flex justify-center items-center hover:bg-red-700 transition-colors cursor-pointer"
       >
         <span className="text-white text-lg font-medium font-['Roboto'] leading-normal">Save & Changes</span>
       </button>

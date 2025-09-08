@@ -8,6 +8,7 @@ import {
   Users, 
   Package, 
   BarChart3, 
+  Rocket, 
   Settings, 
   LogOut,
   Menu,
@@ -43,6 +44,11 @@ const menuItems: MenuItem[] = [
     name: 'Manage Products',
     href: '/dashboard/products',
     icon: Package
+  },
+  {
+    name: 'Boost Products',
+    href: '/dashboard/boost',
+    icon: Rocket
   },
   {
     name: 'Reports & Analytics',

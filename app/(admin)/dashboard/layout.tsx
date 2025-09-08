@@ -29,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen bg-white overflow-hidden">
+    <div className={`h-screen bg-white overflow-hidden flex`}>
       {/* Sidebar */}
       <Sidebar 
         isCollapsed={isCollapsed}
@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Right: Topbar + scrollable content */}
       <div className={`flex flex-col flex-1 min-w-0 h-screen transition-all duration-300 ${
-        isCollapsed ? 'lg:ml-16' : 'lg:ml-72'
+        isCollapsed ? 'lg:pl-16' : 'lg:pl-72'
       }`}>
         <Topbar 
           isCollapsed={isCollapsed}

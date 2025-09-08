@@ -71,7 +71,7 @@ export default function Sidebar({ isCollapsed, isMobileOpen, onToggle, onMobileT
 
       {/* Sidebar */}
       <div className={`
-        fixed lg:relative z-50 lg:z-auto
+        fixed left-0 top-0 z-50
         h-screen bg-gray-50 border-r border-gray-200 flex flex-col
         transition-all duration-300 ease-in-out
         ${isCollapsed ? 'w-16' : 'w-72'}

@@ -11,27 +11,31 @@ interface TopbarProps {
 
 export default function Topbar({ isCollapsed, isMobileOpen, onToggle, onMobileToggle }: TopbarProps) {
   return (
-    <div className="w-full h-[70px] px-4 lg:px-8 bg-gray-50 border-b border-gray-200 flex justify-between lg:justify-end items-center">
-      {/* Mobile Menu Button */}
-      <button
-        onClick={onMobileToggle}
-        className="lg:hidden w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow flex items-center justify-center"
-      >
-        {isMobileOpen ? (
-          <X className="w-6 h-6 text-gray-600" />
-        ) : (
+    <div className="w-full h-[70px] px-4 lg:px-8 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+      {/* Left: Menu Buttons */}
+      <div className="flex items-center gap-3">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={onMobileToggle}
+          className="lg:hidden w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow flex items-center justify-center"
+        >
+          {isMobileOpen ? (
+            <X className="w-6 h-6 text-gray-600" />
+          ) : (
+            <Menu className="w-6 h-6 text-gray-600" />
+          )}
+        </button>
+
+        {/* Desktop Sidebar Toggle */}
+        <button
+          onClick={onToggle}
+          className="hidden lg:flex w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow items-center justify-center"
+        >
           <Menu className="w-6 h-6 text-gray-600" />
-        )}
-      </button>
+        </button>
+      </div>
 
-      {/* Desktop Sidebar Toggle */}
-      <button
-        onClick={onToggle}
-        className="hidden lg:flex w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow items-center justify-center mr-4"
-      >
-        <Menu className="w-6 h-6 text-gray-600" />
-      </button>
-
+      {/* Right: Actions */}
       <div className="flex items-center gap-4">
         {/* Notification Bell */}
         <button className="w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow">

@@ -2,8 +2,8 @@ import ProfilePage from "./components/profilepage"
 
 export default function Page() {
   return (
-    <>
-    <ProfilePage />
-    </>
+    <div className="w-full">
+      <ProfilePage />
+    </div>
   )
 }

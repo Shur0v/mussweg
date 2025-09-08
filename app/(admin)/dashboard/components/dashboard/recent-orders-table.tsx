@@ -252,26 +252,46 @@ export function RecentOrdersTable({ limit, showViewAllButton = true, viewAllHref
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded border border-gray-200">
-        <table className="w-full table-fixed">
-          <thead>
-            <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="w-[6%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">No</th>
-              <th className="w-[24%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Product Name</th>
-              <th className="w-[12%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Seller Name</th>
-              <th className="w-[12%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Buyer Name</th>
-              <th className="w-[16%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Delivery Address</th>
-              <th className="w-[6%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Qnty</th>
-              <th className="w-[10%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Amount</th>
-              <th className="w-[10%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Delivery date</th>
-              <th className="w-[12%] px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-sans">Action</th>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                No
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Product Name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Seller Name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Buyer Name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Delivery Address
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Qnty
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Amount
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Delivery Date
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
             {rows.map((order) => (
-              <tr key={order.id} className="border-b border-gray-200 hover:bg-gray-50/50 transition-colors">
-                <td className="px-3.5 py-5 text-sm text-gray-700 font-sans">{order.id}</td>
-                <td className="px-3.5 py-5">
+              <tr key={order.id} className="bg-white border-b border-gray-200 hover:bg-gray-50">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {order.id}
+                </th>
+                <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <Image
                       src={order.productImage || "/placeholder.svg"}
@@ -283,15 +303,25 @@ export function RecentOrdersTable({ limit, showViewAllButton = true, viewAllHref
                     <span className="text-sm text-gray-800 font-sans">{order.productName}</span>
                   </div>
                 </td>
-                <td className="px-3.5 py-5 text-sm text-gray-800 font-sans">{order.sellerName}</td>
-                <td className="px-3.5 py-5 text-sm text-gray-800 font-sans">{order.buyerName}</td>
-                <td className="px-3.5 py-5 text-sm text-gray-800 font-sans">{order.deliveryAddress}</td>
-                <td className="px-3.5 py-5 text-sm text-gray-800 font-sans">
+                <td className="px-6 py-4">
+                  {order.sellerName}
+                </td>
+                <td className="px-6 py-4">
+                  {order.buyerName}
+                </td>
+                <td className="px-6 py-4">
+                  {order.deliveryAddress}
+                </td>
+                <td className="px-6 py-4">
                   {order.quantity.toString().padStart(2, "0")}
                 </td>
-                <td className="px-3.5 py-5 text-sm text-gray-800 font-sans">${order.amount.toFixed(2)}</td>
-                <td className="px-3.5 py-5 text-sm text-gray-800 font-sans">{order.deliveryDate}</td>
-                <td className="px-3.5 py-5">
+                <td className="px-6 py-4">
+                  ${order.amount.toFixed(2)}
+                </td>
+                <td className="px-6 py-4">
+                  {order.deliveryDate}
+                </td>
+                <td className="px-6 py-4">
                   <StatusBadge status={order.status} />
                 </td>
               </tr>

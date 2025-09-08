@@ -1,10 +1,37 @@
 import React from 'react'
 import Image from 'next/image'
-import { Bell, ChevronDown } from 'lucide-react'
+import { Bell, ChevronDown, Menu, X } from 'lucide-react'
 
-export default function Topbar() {
+interface TopbarProps {
+  isCollapsed: boolean
+  isMobileOpen: boolean
+  onToggle: () => void
+  onMobileToggle: () => void
+}
+
+export default function Topbar({ isCollapsed, isMobileOpen, onToggle, onMobileToggle }: TopbarProps) {
   return (
-    <div className="w-full h-[70px] px-8 bg-gray-50 border-b border-gray-200 flex justify-end items-center">
+    <div className="w-full h-[70px] px-4 lg:px-8 bg-gray-50 border-b border-gray-200 flex justify-between lg:justify-end items-center">
+      {/* Mobile Menu Button */}
+      <button
+        onClick={onMobileToggle}
+        className="lg:hidden w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow flex items-center justify-center"
+      >
+        {isMobileOpen ? (
+          <X className="w-6 h-6 text-gray-600" />
+        ) : (
+          <Menu className="w-6 h-6 text-gray-600" />
+        )}
+      </button>
+
+      {/* Desktop Sidebar Toggle */}
+      <button
+        onClick={onToggle}
+        className="hidden lg:flex w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow items-center justify-center mr-4"
+      >
+        <Menu className="w-6 h-6 text-gray-600" />
+      </button>
+
       <div className="flex items-center gap-4">
         {/* Notification Bell */}
         <button className="w-9 h-9 p-1.5 bg-white rounded-full shadow-xs hover:shadow-md transition-shadow">

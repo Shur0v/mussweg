@@ -313,127 +313,72 @@ export default function ManageUsers() {
       ) : (
         <>
           {/* Table */}
-          <div className="rounded overflow-hidden border border-gray-200">
-            <div className="flex">
-              {/* No Column */}
-              <div className="w-16 flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">No</div>
-                </div>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    No
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    User Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Email Address
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Location
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Bought Products
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Sold Products
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Uploaded Products
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
                 {currentUsers.map((user, index) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <div className="text-gray-700 text-sm font-normal font-sans leading-snug">{startIndex + index + 1}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* User Name Column */}
-              <div className="w-48 flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">User Name</div>
-                </div>
-                {currentUsers.map((user) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <div className="text-gray-900 text-sm font-normal font-sans leading-tight">{user.userName}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Email Address Column */}
-              <div className="flex-1 flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">Email Address</div>
-                </div>
-                {currentUsers.map((user) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <div className="text-gray-900 text-sm font-normal font-sans leading-tight">{user.email}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Location Column */}
-              <div className="flex-1 flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">Location</div>
-                </div>
-                {currentUsers.map((user) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <div className="text-gray-900 text-sm font-normal font-sans leading-tight">{user.location}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Bought Products Column */}
-              <div className="flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">
-                    Bought
-                    <br />
-                    products
-                  </div>
-                </div>
-                {currentUsers.map((user) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <div className="text-gray-900 text-sm font-normal font-sans leading-tight">
+                  <tr key={user.id} className="bg-white border-b border-gray-200 hover:bg-gray-50">
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                      {startIndex + index + 1}
+                    </th>
+                    <td className="px-6 py-4">
+                      {user.userName}
+                    </td>
+                    <td className="px-6 py-4">
+                      {user.email}
+                    </td>
+                    <td className="px-6 py-4">
+                      {user.location}
+                    </td>
+                    <td className="px-6 py-4">
                       {user.boughtProducts.toString().padStart(2, "0")}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Sold Products Column */}
-              <div className="flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">
-                    Sold
-                    <br />
-                    products
-                  </div>
-                </div>
-                {currentUsers.map((user) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <div className="text-gray-900 text-sm font-normal font-sans leading-tight">
+                    </td>
+                    <td className="px-6 py-4">
                       {user.soldProducts.toString().padStart(2, "0")}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Uploaded Products Column */}
-              <div className="flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">
-                    Uploaded
-                    <br />
-                    products
-                  </div>
-                </div>
-                {currentUsers.map((user) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <div className="text-gray-900 text-sm font-normal font-sans leading-tight">
+                    </td>
+                    <td className="px-6 py-4">
                       {user.uploadedProducts.toString().padStart(2, "0")}
-                    </div>
-                  </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <button 
+                        onClick={() => handleDeleteClick(user.id, user.userName)}
+                        className="w-5 h-5 flex items-center justify-center hover:bg-gray-100 rounded"
+                      >
+                        <MoreHorizontal className="w-4 h-4 text-gray-600" />
+                      </button>
+                    </td>
+                  </tr>
                 ))}
-              </div>
-
-              {/* Action Column */}
-              <div className="flex flex-col">
-                <div className="h-14 px-3.5 py-5 bg-gray-50 border-b border-gray-200 flex items-center">
-                  <div className="text-gray-500 text-sm font-medium font-sans leading-snug">Action</div>
-                </div>
-                {currentUsers.map((user) => (
-                  <div key={user.id} className="h-16 px-3.5 py-5 border-b border-gray-200 flex items-center">
-                    <button 
-                      onClick={() => handleDeleteClick(user.id, user.userName)}
-                      className="w-5 h-5 flex items-center justify-center hover:bg-gray-100 rounded"
-                    >
-                      <MoreHorizontal className="w-4 h-4 text-gray-600" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
+              </tbody>
+            </table>
           </div>
 
           {/* Pagination */}

@@ -26,57 +26,57 @@ export function AllUserRequestTable({ compact = false, onReject, onAccept }: Tab
   const locationResponsiveCell = compact ? 'hidden md:table-cell' : ''
 
   return (
-    <table className="w-full table-fixed">
-      <thead>
-        <tr>
-          <th className={`w-[33%] h-16 ${thPad} bg-gray-100 border-b border-gray-200 text-left`}>
-            <div className={`text-gray-700 ${textSize} font-medium font-['Inter'] leading-snug`}>User Name</div>
-          </th>
-          <th className={`w-[35%] h-16 ${thPad} bg-gray-100 border-b border-gray-200 text-left`}>
-            <div className={`text-gray-700 ${textSize} font-medium font-['Inter'] leading-snug`}>Email</div>
-          </th>
-          <th className={`w-[25%] h-16 ${thPad} bg-gray-100 border-b border-gray-200 text-left ${locationResponsiveHeader}`}>
-            <div className={`text-gray-700 ${textSize} font-medium font-['Inter'] leading-snug`}>Location</div>
-          </th>
-          <th className={`w-[33%] h-16 ${thPad} bg-gray-100 border-b border-gray-200 text-right`}>
-            <div className={`text-gray-700 ${textSize} font-medium font-['Inter'] leading-snug`}>Action</div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {userData.map((user, index) => (
-          <tr key={index}>
-            <td className={`h-16 ${tdPad} border-b border-gray-200`}>
-              <div className={`text-neutral-600 ${textSize} font-normal font-['Roboto'] leading-snug`}>{user.name}</div>
-            </td>
-            <td className={`h-16 ${tdPad} border-b border-gray-200`}>
-              <div className={`text-neutral-600 ${textSize} font-normal font-['Roboto'] leading-snug truncate`}>{user.email}</div>
-            </td>
-            <td className={`h-16 ${tdPad} border-b border-gray-200 ${locationResponsiveCell}`}>
-              <div className={`text-neutral-600 ${textSize} font-normal font-['Roboto'] leading-snug truncate`}>
-                {user.location}
-              </div>
-            </td>
-            <td className={`h-16 ${tdPad} border-b border-gray-200 text-right whitespace-nowrap`}>
-              <div className="flex justify-end items-center gap-2 shrink-0">
-                <button
-                  onClick={() => handleReject(user.name)}
-                  className="w-16 px-2 py-1 rounded border border-red-600 flex justify-center items-center gap-1 hover:bg-red-50 transition-colors"
-                >
-                  <div className={`${textSize} text-red-600 font-normal font-['Roboto'] leading-snug`}>Reject</div>
-                </button>
-                <button
-                  onClick={() => handleAccept(user.name)}
-                  className="w-16 px-2 py-1 bg-red-600 rounded flex justify-center items-center gap-1 hover:bg-red-700 transition-colors"
-                >
-                  <div className={`${textSize} text-white font-normal font-['Roboto'] leading-snug`}>Accept</div>
-                </button>
-              </div>
-            </td>
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-3">
+              User Name
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Email
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Location
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Action
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {userData.map((user, index) => (
+            <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                {user.name}
+              </th>
+              <td className="px-6 py-4">
+                {user.email}
+              </td>
+              <td className="px-6 py-4">
+                {user.location}
+              </td>
+              <td className="px-6 py-4">
+                <div className="flex justify-end items-center gap-2 shrink-0">
+                  <button
+                    onClick={() => handleReject(user.name)}
+                    className="w-16 px-2 py-1 rounded border border-red-600 flex justify-center items-center gap-1 hover:bg-red-50 transition-colors"
+                  >
+                    <div className={`${textSize} text-red-600 font-normal font-['Roboto'] leading-snug`}>Reject</div>
+                  </button>
+                  <button
+                    onClick={() => handleAccept(user.name)}
+                    className="w-16 px-2 py-1 bg-red-600 rounded flex justify-center items-center gap-1 hover:bg-red-700 transition-colors"
+                  >
+                    <div className={`${textSize} text-white font-normal font-['Roboto'] leading-snug`}>Accept</div>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

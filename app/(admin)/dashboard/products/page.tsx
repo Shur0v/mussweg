@@ -3,9 +3,8 @@ import Products from './components/producttable'
 
 export default function ProductsPage() {
   return (
-<>
-<Products />
-
-</>
+    <div className="w-full">
+      <Products />
+    </div>
   )
 }

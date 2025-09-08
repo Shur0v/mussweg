@@ -3,7 +3,7 @@ import DashboardPage from './components/dashboard/dashboardPage'
 
 export default function Dashboard() {
   return (
-    <div className="p-8">
+    <div className="w-full">
      <DashboardPage />
     </div>
   )

@@ -1,5 +1,9 @@
 import ManageUsers from "./components/manageusers"
 
 export default function UsersPage() {
-  return <ManageUsers />
+  return (
+    <div className="w-full">
+      <ManageUsers />
+    </div>
+  )
 }

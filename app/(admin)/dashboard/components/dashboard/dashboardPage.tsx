@@ -77,16 +77,16 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className=" max-w-[100vw] mx-auto ">
-      <div className="w-full h-36 inline-flex justify-start items-start gap-4">
+    <div className="w-full max-w-full mx-auto">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         {stats.map((s) => (
           <StatCard key={s.id} {...s} />
         ))}
       </div>
-      <div className="mt-6">
+      <div className="mb-6">
         <AnalyticsSection onViewAll={() => setShowAllUsers(true)} />
       </div>
-      <div className="mt-6">
+      <div className="mb-6">
         <RecentOrdersTable limit={4} showViewAllButton onViewAll={() => setShowAllOrders(true)} />
       </div>
     </div>

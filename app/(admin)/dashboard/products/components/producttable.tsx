@@ -191,49 +191,49 @@ export default function ProductTable() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded border border-gray-200">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-gray-50">
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-3">
                 No
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Product Name
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 User Name
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Category
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Size
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Color
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Qnty
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Amount
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Time
               </th>
-              <th className="px-3.5 py-5 text-left text-sm font-medium text-gray-600 font-['Inter'] border-b border-gray-200">
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
             {currentData.map((product, index) => (
-              <tr key={product.id} className="border-b border-gray-200 last:border-b-0">
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-700 font-['Inter']">
+              <tr key={product.id} className="bg-white border-b border-gray-200 hover:bg-gray-50">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                   {String(product.id).padStart(2, "0")}
-                </td>
-                <td className="px-3.5 py-5">
+                </th>
+                <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <img
                       src={product.image || "/placeholder.svg"}
@@ -243,14 +243,28 @@ export default function ProductTable() {
                     <span className="text-sm font-normal text-gray-800 font-['Roboto']">{product.productName}</span>
                   </div>
                 </td>
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-800 font-['Roboto']">{product.userName}</td>
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-800 font-['Roboto']">{product.category}</td>
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-800 font-['Roboto']">{product.size}</td>
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-800 font-['Roboto']">{product.color}</td>
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-800 font-['Roboto']">{product.quantity}</td>
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-800 font-['Roboto']">{product.amount}</td>
-                <td className="px-3.5 py-5 text-sm font-normal text-gray-800 font-['Roboto']">{product.time}</td>
-                <td className="px-3.5 py-5">
+                <td className="px-6 py-4">
+                  {product.userName}
+                </td>
+                <td className="px-6 py-4">
+                  {product.category}
+                </td>
+                <td className="px-6 py-4">
+                  {product.size}
+                </td>
+                <td className="px-6 py-4">
+                  {product.color}
+                </td>
+                <td className="px-6 py-4">
+                  {product.quantity}
+                </td>
+                <td className="px-6 py-4">
+                  {product.amount}
+                </td>
+                <td className="px-6 py-4">
+                  {product.time}
+                </td>
+                <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleAction("reject", product.id)}

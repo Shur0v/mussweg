@@ -71,20 +71,25 @@ function LineChart({ selectedPeriod }: { selectedPeriod: string }) {
   const chartWidth = 475
   const chartHeight = 224
   const maxValue = 500
+  const padding = 20 // Add padding to prevent overflow
 
   const { pathData, areaPath } = useMemo(() => {
+    // Calculate available width and height with padding
+    const availableWidth = chartWidth - (padding * 2)
+    const availableHeight = chartHeight - (padding * 2)
+    
     // Show all data points for full chart
     const path = dataPoints
       .map((value, index) => {
-        const x = (index / (dataPoints.length - 1)) * chartWidth
-        const y = chartHeight - (value / maxValue) * chartHeight
+        const x = padding + (index / (dataPoints.length - 1)) * availableWidth
+        const y = padding + availableHeight - (value / maxValue) * availableHeight
         return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
       })
       .join(' ')
 
     return {
       pathData: path,
-      areaPath: `${path} L ${chartWidth} ${chartHeight} L 0 ${chartHeight} Z`
+      areaPath: `${path} L ${chartWidth - padding} ${chartHeight - padding} L ${padding} ${chartHeight - padding} Z`
     }
   }, [dataPoints])
 
@@ -100,9 +105,9 @@ function LineChart({ selectedPeriod }: { selectedPeriod: string }) {
   const activeYear = activeIndex !== null ? (currentMonth + 1 + activeIndex >= 12 ? currentYear : currentYear - 1) : null
 
   return (
-    <div className="relative w-full h-72">
+    <div className="relative w-full h-72 overflow-hidden">
       {/* Y-axis labels */}
-      <div className="absolute left-0 top-0 h-64 flex flex-col justify-between items-end pr-2">
+      <div className="absolute left-0 top-0 h-64 flex flex-col justify-between items-end pr-2 z-10">
         {[500, 400, 300, 200, 100, 0].map((label) => (
           <div key={label} className="text-zinc-500 text-xs font-normal">{label}</div>
         ))}
@@ -113,7 +118,9 @@ function LineChart({ selectedPeriod }: { selectedPeriod: string }) {
         <svg
           width={chartWidth}
           height={chartHeight}
-          className="overflow-visible"
+          className="overflow-hidden"
+          viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+          preserveAspectRatio="xMidYMid meet"
           onMouseLeave={() => setHoverIndex(null)}
         >
           <defs>
@@ -127,8 +134,10 @@ function LineChart({ selectedPeriod }: { selectedPeriod: string }) {
           <path d={pathData} stroke="#dc2626" strokeWidth="3" fill="none" />
 
           {dataPoints.map((value, index) => {
-            const x = (index / (dataPoints.length - 1)) * chartWidth
-            const y = chartHeight - (value / maxValue) * chartHeight
+            const availableWidth = chartWidth - (padding * 2)
+            const availableHeight = chartHeight - (padding * 2)
+            const x = padding + (index / (dataPoints.length - 1)) * availableWidth
+            const y = padding + availableHeight - (value / maxValue) * availableHeight
             const isHovered = hoverIndex === index
             return (
               <circle
@@ -147,7 +156,7 @@ function LineChart({ selectedPeriod }: { selectedPeriod: string }) {
         </svg>
 
         {activeIndex !== null && activeMonth && activeValue !== null && activeYear && (
-          <div className="absolute top-2 right-4 bg-white rounded-lg shadow-lg p-2.5 border pointer-events-none">
+          <div className="absolute top-2 right-4 bg-white rounded-lg shadow-lg p-2.5 border pointer-events-none z-20">
             <div className="text-neutral-600 text-xs font-semibold mb-1.5">{activeMonth} {activeYear}</div>
             <div className="flex items-center gap-1 text-xs">
               <span className="text-gray-500">This Month</span>
@@ -159,7 +168,7 @@ function LineChart({ selectedPeriod }: { selectedPeriod: string }) {
       </div>
 
       {/* X-axis labels */}
-      <div className="absolute bottom-0 left-6 right-0 flex justify-between items-center">
+      <div className="absolute bottom-0 left-6 right-0 flex justify-between items-center z-10">
         {months.map((m, index) => {
           // September is the last month in the array, so it should be highlighted
           const isCurrentMonth = index === months.length - 1 // Last month is current month
@@ -196,9 +205,9 @@ export default function AnalyticsSection({ onViewAll }: AnalyticsSectionProps) {
   }, [])
 
   return (
-    <div className="flex justify-between items-start gap-6 max-w-full mx-auto">
+    <div className="flex flex-col lg:flex-row justify-between items-start gap-6 max-w-full mx-auto">
       {/* Total Signup Chart card */}
-      <div className=" max-w-[530px] w-full h-96 p-5 bg-white rounded-xl shadow-[0px_4px_33px_8px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-between">
+      <div className="w-full lg:max-w-[530px] h-96 p-5 bg-white rounded-xl shadow-[0px_4px_33px_8px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-between overflow-hidden">
         <div className="flex justify-between items-center h-16">
           <div className="flex flex-col gap-1.5">
             <div className="text-gray-600 text-sm font-medium">Total Signup</div>

@@ -3,7 +3,7 @@ import { RecentOrdersTable } from '../components/dashboard/recent-orders-table'
 
 export default function OrdersPage() {
   return (
-    <div className="p-8">
+    <div className="w-full">
       <RecentOrdersTable showViewAllButton={false} />
     </div>
   )

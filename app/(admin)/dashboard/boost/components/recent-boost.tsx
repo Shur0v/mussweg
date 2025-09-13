@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { X, Plus, ChevronDown, MoreHorizontal, ChevronLeft, ChevronRight } from "lucide-react"
+import Image from "next/image"
+import { useEffect, useRef } from "react"
 
 interface BoostItem {
   id: number
@@ -14,13 +16,33 @@ interface BoostItem {
   duration: string
   image: string
   status: "pending" | "active"
+  createdAt: string
 }
+
+type FilterPeriod = "all" | "weekly" | "monthly" | "6months"
 
 export default function BoostManagement() {
   const [activeTab, setActiveTab] = useState<"request" | "total">("request")
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedFilter, setSelectedFilter] = useState<FilterPeriod>("monthly")
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const pageSize = 7
+  const filterRef = useRef<HTMLDivElement>(null)
+
+  // Handle clicking outside filter dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setIsFilterOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const [boostData, setBoostData] = useState<BoostItem[]>([
     {
@@ -34,6 +56,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p1.png",
       status: "pending",
+      createdAt: "2024-01-15",
     },
     {
       id: 2,
@@ -46,6 +69,7 @@ export default function BoostManagement() {
       duration: "2 Days",
       image: "/images/p2.png",
       status: "pending",
+      createdAt: "2024-01-20",
     },
     {
       id: 3,
@@ -58,6 +82,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p3.png",
       status: "pending",
+      createdAt: "2024-01-25",
     },
     {
       id: 5,
@@ -70,6 +95,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p4.png",
       status: "pending",
+      createdAt: "2024-01-30",
     },
     {
       id: 6,
@@ -82,6 +108,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p5.png",
       status: "pending",
+      createdAt: "2024-01-28",
     },
     {
       id: 7,
@@ -94,6 +121,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p7.png",
       status: "pending",
+      createdAt: "2024-01-29",
     },
     {
       id: 8,
@@ -106,6 +134,7 @@ export default function BoostManagement() {
       duration: "5 Days",
       image: "/images/p8.png",
       status: "active",
+      createdAt: "2024-02-05",
     },
     {
       id: 9,
@@ -118,6 +147,7 @@ export default function BoostManagement() {
       duration: "7 Days",
       image: "/images/p1.png",
       status: "active",
+      createdAt: "2024-02-10",
     },
     {
       id: 10,
@@ -130,6 +160,7 @@ export default function BoostManagement() {
       duration: "4 Days",
       image: "/images/p2.png",
       status: "active",
+      createdAt: "2024-03-15",
     },
     {
       id: 11,
@@ -142,6 +173,7 @@ export default function BoostManagement() {
       duration: "6 Days",
       image: "/images/p3.png",
       status: "active",
+      createdAt: "2024-04-20",
     },
     {
       id: 12,
@@ -154,6 +186,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p4.png",
       status: "active",
+      createdAt: "2024-05-10",
     },
     {
       id: 13,
@@ -166,6 +199,7 @@ export default function BoostManagement() {
       duration: "2 Days",
       image: "/images/p5.png",
       status: "pending",
+      createdAt: "2024-06-05",
     },
     {
       id: 14,
@@ -178,6 +212,7 @@ export default function BoostManagement() {
       duration: "4 Days",
       image: "/images/p6.png",
       status: "pending",
+      createdAt: "2024-07-15",
     },
     {
       id: 15,
@@ -190,6 +225,7 @@ export default function BoostManagement() {
       duration: "5 Days",
       image: "/images/p7.png",
       status: "pending",
+      createdAt: "2024-08-20",
     },
     {
       id: 16,
@@ -202,6 +238,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p8.png",
       status: "pending",
+      createdAt: "2024-09-10",
     },
     {
       id: 17,
@@ -214,6 +251,7 @@ export default function BoostManagement() {
       duration: "6 Days",
       image: "/images/p1.png",
       status: "pending",
+      createdAt: "2024-10-05",
     },
     {
       id: 18,
@@ -226,6 +264,7 @@ export default function BoostManagement() {
       duration: "2 Days",
       image: "/images/p2.png",
       status: "pending",
+      createdAt: "2024-11-15",
     },
     {
       id: 19,
@@ -238,6 +277,7 @@ export default function BoostManagement() {
       duration: "7 Days",
       image: "/images/p3.png",
       status: "pending",
+      createdAt: "2024-12-01",
     },
     {
       id: 20,
@@ -250,6 +290,7 @@ export default function BoostManagement() {
       duration: "5 Days",
       image: "/images/p4.png",
       status: "active",
+      createdAt: "2024-12-10",
     },
     {
       id: 21,
@@ -262,6 +303,7 @@ export default function BoostManagement() {
       duration: "4 Days",
       image: "/images/p5.png",
       status: "active",
+      createdAt: "2024-12-15",
     },
     {
       id: 22,
@@ -274,6 +316,7 @@ export default function BoostManagement() {
       duration: "3 Days",
       image: "/images/p6.png",
       status: "active",
+      createdAt: "2024-12-20",
     },
     {
       id: 23,
@@ -286,6 +329,7 @@ export default function BoostManagement() {
       duration: "6 Days",
       image: "/images/p7.png",
       status: "active",
+      createdAt: "2024-12-25",
     },
     {
       id: 24,
@@ -298,6 +342,7 @@ export default function BoostManagement() {
       duration: "2 Days",
       image: "/images/p8.png",
       status: "active",
+      createdAt: "2024-12-28",
     },
     {
       id: 25,
@@ -310,6 +355,7 @@ export default function BoostManagement() {
       duration: "5 Days",
       image: "/images/p1.png",
       status: "active",
+      createdAt: "2024-12-30",
     },
     {
       id: 26,
@@ -322,11 +368,45 @@ export default function BoostManagement() {
       duration: "4 Days",
       image: "/images/p2.png",
       status: "active",
+      createdAt: "2024-12-31",
     },
   ])
 
-  const pendingBoosts = boostData.filter((item) => item.status === "pending")
-  const activeBoosts = boostData.filter((item) => item.status === "active")
+  // Filter options
+  const filterOptions = [
+    { value: "all", label: "All Time" },
+    { value: "weekly", label: "Weekly" },
+    { value: "monthly", label: "Monthly" },
+    { value: "6months", label: "6 Months" },
+  ]
+
+  // Filter function based on selected period
+  const filterDataByPeriod = (data: BoostItem[], period: FilterPeriod) => {
+    if (period === "all") return data
+
+    const now = new Date()
+    const filterDate = new Date()
+
+    switch (period) {
+      case "weekly":
+        filterDate.setDate(now.getDate() - 7)
+        break
+      case "monthly":
+        filterDate.setMonth(now.getMonth() - 1)
+        break
+      case "6months":
+        filterDate.setMonth(now.getMonth() - 6)
+        break
+    }
+
+    return data.filter((item) => {
+      const itemDate = new Date(item.createdAt)
+      return itemDate >= filterDate
+    })
+  }
+
+  const pendingBoosts = filterDataByPeriod(boostData.filter((item) => item.status === "pending"), selectedFilter)
+  const activeBoosts = filterDataByPeriod(boostData.filter((item) => item.status === "active"), selectedFilter)
 
   const activeList = activeTab === "request" ? pendingBoosts : activeBoosts
   const totalPages = Math.max(1, Math.ceil(activeList.length / pageSize))
@@ -365,8 +445,8 @@ export default function BoostManagement() {
   }
 
   const CreateBoostModal = () => (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="px-6 py-6 bg-white rounded-3xl flex flex-col gap-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="w-full max-w-[662px] px-4 sm:px-6 py-6 bg-white rounded-3xl flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <div className="text-neutral-600 text-lg font-semibold font-['Roboto']">Create Boost</div>
           <button
@@ -377,7 +457,7 @@ export default function BoostManagement() {
           </button>
         </div>
 
-        <div className="w-[662px] px-5 py-6 rounded-xl border border-gray-200 flex flex-col gap-8">
+        <div className="w-full px-3 sm:px-5 py-6 rounded-xl border border-gray-200 flex flex-col gap-6 sm:gap-8">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-neutral-600 text-sm font-medium font-['Roboto']">Boost Type</label>
@@ -407,14 +487,14 @@ export default function BoostManagement() {
             </div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="w-40 px-4 py-3 bg-slate-950/5 rounded-[10px] text-neutral-600 text-sm font-medium font-['Roboto']"
+              className="w-full sm:w-40 px-4 py-3 bg-slate-950/5 rounded-[10px] text-neutral-600 text-sm font-medium font-['Roboto']"
             >
               Cancel
             </button>
-            <button className="px-4 py-3 bg-red-600 rounded-[10px] text-white text-sm font-medium font-['Roboto']">
+            <button className="w-full sm:w-auto px-4 py-3 bg-red-600 rounded-[10px] text-white text-sm font-medium font-['Roboto']">
               Save & Changes
             </button>
           </div>
@@ -424,23 +504,50 @@ export default function BoostManagement() {
   )
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       <div className="w-full">
-        <div className="p-4 bg-white rounded-xl shadow-[0px_4px_33px_8px_rgba(0,0,0,0.04)] border border-gray-200 flex flex-col gap-4">
+        <div className="p-2 sm:p-4 bg-white rounded-xl shadow-[0px_4px_33px_8px_rgba(0,0,0,0.04)] border border-gray-200 flex flex-col gap-4">
           {/* Header */}
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div className="text-neutral-600 text-lg font-semibold font-['Roboto']">Recent Boost</div>
             <div className="flex justify-end items-center gap-3">
-              <div className="w-28 h-10 p-3 bg-white rounded-lg border border-gray-200 flex justify-center items-center gap-2">
-                <div className="text-gray-600 text-sm font-medium font-['Roboto']">Monthly</div>
-                <ChevronDown className="w-5 h-5 text-gray-600" />
+              <div className="relative" ref={filterRef}>
+                <button
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  className="w-24 sm:w-28 h-10 p-3 bg-white rounded-lg border border-gray-200 flex justify-center items-center gap-2 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="text-gray-600 text-sm font-medium font-['Roboto'] whitespace-nowrap">
+                    {filterOptions.find(opt => opt.value === selectedFilter)?.label}
+                  </div>
+                  <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isFilterOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                    {filterOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => {
+                          setSelectedFilter(option.value as FilterPeriod)
+                          setIsFilterOpen(false)
+                          setCurrentPage(1)
+                        }}
+                        className={`w-full px-3 py-2 text-left text-sm font-medium font-['Roboto'] hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg ${
+                          selectedFilter === option.value ? 'bg-red-50 text-red-600' : 'text-gray-600'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
           {/* Tab Navigation */}
-          <div className="flex justify-between items-center">
-            <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div className="flex gap-2 sm:gap-3">
               <button
                 onClick={() => {
                   setActiveTab("request")
@@ -450,7 +557,7 @@ export default function BoostManagement() {
                   activeTab === "request" ? "bg-red-600 text-white" : "border border-zinc-500 text-neutral-600"
                 }`}
               >
-                <div className="text-sm font-normal font-['Roboto']">Boost Request</div>
+                <div className="text-xs sm:text-sm font-normal font-['Roboto']">Boost Request</div>
               </button>
               <button
                 onClick={() => {
@@ -461,7 +568,7 @@ export default function BoostManagement() {
                   activeTab === "total" ? "bg-red-600 text-white" : "border border-zinc-500 text-neutral-600"
                 }`}
               >
-                <div className="text-sm font-normal font-['Roboto']">Total Boost product</div>
+                <div className="text-xs sm:text-sm font-normal font-['Roboto']">Total Boost product</div>
               </button>
             </div>
 
@@ -470,42 +577,42 @@ export default function BoostManagement() {
                 onClick={() => setIsModalOpen(true)}
                 className="h-9 px-2 py-1 rounded border border-red-600 flex justify-center items-center gap-1"
               >
-                <Plus className="w-5 h-5 text-red-600" />
-                <div className="text-red-600 text-sm font-normal font-['Roboto']">Create Boost</div>
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                <div className="text-red-600 text-xs sm:text-sm font-normal font-['Roboto']">Create Boost</div>
               </button>
             )}
           </div>
 
           {/* Table */}
-          <div className="rounded border border-gray-200 overflow-hidden">
-            <table className="w-full">
+          <div className="rounded border border-gray-200 overflow-hidden overflow-x-auto">
+            <table className="w-full min-w-[800px]">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     No
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Product Name
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Seller Name
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Qnty
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Price
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Boost Type
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Boost price
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Duration
                   </th>
-                  <th className="h-14 px-3.5 py-5 text-left text-gray-600 text-sm font-medium font-['Inter'] border-b border-gray-200">
+                  <th className="h-14 px-2 sm:px-3.5 py-5 text-left text-gray-600 text-xs sm:text-sm font-medium font-['Inter'] border-b border-gray-200">
                     Action
                   </th>
                 </tr>
@@ -513,49 +620,51 @@ export default function BoostManagement() {
               <tbody>
                 {paginatedList.map((item, index) => (
                   <tr key={item.id} className="border-b border-gray-200">
-                    <td className="h-16 px-3.5 py-5 text-gray-800 text-sm font-normal font-['Inter']">
+                    <td className="h-16 px-2 sm:px-3.5 py-5 text-gray-800 text-xs sm:text-sm font-normal font-['Inter']">
                       {String(startIndex + index + 1).padStart(2, "0")}
                     </td>
-                    <td className="h-16 px-3.5 py-5">
-                      <div className="flex items-center gap-3">
-                        <img
-                          className="w-10 h-10 rounded"
+                    <td className="h-16 px-2 sm:px-3.5 py-5">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <Image
+                          className="w-8 h-8 sm:w-10 sm:h-10 rounded"
                           src={item.image || "/placeholder.svg"}
                           alt={item.productName}
+                          width={40}
+                          height={40}
                         />
-                        <div className="text-gray-800 text-sm font-normal font-['Roboto']">{item.productName}</div>
+                        <div className="text-gray-800 text-xs sm:text-sm font-normal font-['Roboto']">{item.productName}</div>
                       </div>
                     </td>
-                    <td className="h-16 px-3.5 py-5 text-gray-800 text-sm font-normal font-['Roboto']">
+                    <td className="h-16 px-2 sm:px-3.5 py-5 text-gray-800 text-xs sm:text-sm font-normal font-['Roboto']">
                       {item.sellerName}
                     </td>
-                    <td className="h-16 px-3.5 py-5 text-gray-800 text-sm font-normal font-['Roboto']">
+                    <td className="h-16 px-2 sm:px-3.5 py-5 text-gray-800 text-xs sm:text-sm font-normal font-['Roboto']">
                       {String(item.quantity).padStart(2, "0")}
                     </td>
-                    <td className="h-16 px-3.5 py-5 text-gray-800 text-sm font-normal font-['Roboto']">
+                    <td className="h-16 px-2 sm:px-3.5 py-5 text-gray-800 text-xs sm:text-sm font-normal font-['Roboto']">
                       ${item.price.toFixed(2)}
                     </td>
-                    <td className="h-16 px-3.5 py-5 text-gray-800 text-sm font-normal font-['Roboto']">
+                    <td className="h-16 px-2 sm:px-3.5 py-5 text-gray-800 text-xs sm:text-sm font-normal font-['Roboto']">
                       {item.boostType}
                     </td>
-                    <td className="h-16 px-3.5 py-5 text-gray-800 text-sm font-normal font-['Roboto']">
+                    <td className="h-16 px-2 sm:px-3.5 py-5 text-gray-800 text-xs sm:text-sm font-normal font-['Roboto']">
                       ${item.boostPrice.toFixed(2)}
                     </td>
-                    <td className="h-16 px-3.5 py-5 text-gray-800 text-sm font-normal font-['Roboto']">
+                    <td className="h-16 px-2 sm:px-3.5 py-5 text-gray-800 text-xs sm:text-sm font-normal font-['Roboto']">
                       {item.duration}
                     </td>
-                    <td className="h-16 px-3.5 py-5">
+                    <td className="h-16 px-2 sm:px-3.5 py-5">
                       {activeTab === "request" ? (
-                        <div className="flex gap-2">
+                        <div className="flex gap-1 sm:gap-2">
                           <button
                             onClick={() => handleReject(item.id)}
-                            className="w-14 px-2 py-1 rounded border border-red-600 flex justify-center items-center"
+                            className="w-12 sm:w-14 px-1 sm:px-2 py-1 rounded border border-red-600 flex justify-center items-center"
                           >
                             <div className="text-red-600 text-xs font-normal font-['Roboto']">Reject</div>
                           </button>
                           <button
                             onClick={() => handleAccept(item.id)}
-                            className="px-2 py-1 bg-red-600 rounded flex justify-center items-center"
+                            className="px-1 sm:px-2 py-1 bg-red-600 rounded flex justify-center items-center"
                           >
                             <div className="text-white text-xs font-normal font-['Roboto']">Accept</div>
                           </button>
@@ -573,34 +682,34 @@ export default function BoostManagement() {
           </div>
 
           {/* Pagination */}
-          <div className="flex gap-3">
+          <div className="flex gap-2 sm:gap-3 overflow-x-auto">
             <button
               onClick={() => goToPage(safeCurrentPage - 1)}
               disabled={safeCurrentPage === 1}
-              className={`w-8 h-8 p-3 rounded-lg border flex justify-center items-center ${
+              className={`w-8 h-8 p-2 sm:p-3 rounded-lg border flex justify-center items-center flex-shrink-0 ${
                 safeCurrentPage === 1 ? "border-gray-200 opacity-50 cursor-not-allowed" : "border-gray-200"
               }`}
             >
-              <ChevronLeft className="w-6 h-6 text-gray-500" />
+              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 text-gray-500" />
             </button>
 
             {getPageButtons().map((p, i) =>
               p === "ellipsis" ? (
-                <button key={`e-${i}`} className="w-8 h-8 p-3 rounded-lg border border-gray-200 flex justify-center items-center" disabled>
+                <button key={`e-${i}`} className="w-8 h-8 p-2 sm:p-3 rounded-lg border border-gray-200 flex justify-center items-center flex-shrink-0" disabled>
                   <div className="text-gray-500 text-lg font-semibold">...</div>
                 </button>
               ) : (
                 <button
                   key={p}
                   onClick={() => goToPage(p)}
-                  className={`w-8 h-8 p-3 rounded-lg flex justify-center items-center ${
+                  className={`w-8 h-8 p-2 sm:p-3 rounded-lg flex justify-center items-center flex-shrink-0 ${
                     p === safeCurrentPage
                       ? "bg-gray-50 border border-red-600"
                       : "border border-gray-200"
                   }`}
                 >
                   <div
-                    className={`text-sm font-normal font-['Roboto'] ${
+                    className={`text-xs sm:text-sm font-normal font-['Roboto'] ${
                       p === safeCurrentPage ? "text-red-600" : "text-gray-500"
                     }`}
                   >
@@ -613,11 +722,11 @@ export default function BoostManagement() {
             <button
               onClick={() => goToPage(safeCurrentPage + 1)}
               disabled={safeCurrentPage === totalPages}
-              className={`w-8 h-8 p-3 rounded-lg border flex justify-center items-center ${
+              className={`w-8 h-8 p-2 sm:p-3 rounded-lg border flex justify-center items-center flex-shrink-0 ${
                 safeCurrentPage === totalPages ? "border-gray-200 opacity-50 cursor-not-allowed" : "border-gray-200"
               }`}
             >
-              <ChevronRight className="w-6 h-6 text-gray-500" />
+              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 text-gray-500" />
             </button>
           </div>
         </div>
